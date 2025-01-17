@@ -1,0 +1,45 @@
+---
+- name: Deploy coursework files
+  hosts: workers:storagenode
+  become: yes
+  tasks:
+    - name: Ensure /home/almalinux/pipeline directory exists
+      file:
+        path: /home/almalinux/pipeline
+        state: directory
+        mode: '0755'
+        owner: almalinux
+        group: almalinux
+
+    - name: Copy pipeline_script_v1.py to target directory
+      copy:
+        src: /home/almalinux/CW0235/5_pipeline_parser/pipeline_script_v1.py
+        dest: /home/almalinux/pipeline/pipeline_script_v1.py
+        owner: almalinux
+        group: almalinux
+        mode: '0644'
+    
+    - name: Copy progress.py to target directory
+      copy:
+        src: /home/almalinux/CW0235/5_pipeline_parser/progress.py
+        dest: /home/almalinux/pipeline/progress.py
+        owner: almalinux
+        group: almalinux
+        mode: '0644'
+    
+    - name: Copy results_parser_v1.py to target directory
+      copy:
+        src: /home/almalinux/CW0235/5_pipeline_parser/results_parser_v1.py
+        dest: /home/almalinux/pipeline/results_parser_v1.py
+        owner: almalinux
+        group: almalinux
+        mode: '0644'
+
+    - name: Output Directory
+      file:
+        path: /home/almalinux/data/result
+        state: directory
+        owner: almalinux
+        group: almalinux
+        mode: '0755'
+

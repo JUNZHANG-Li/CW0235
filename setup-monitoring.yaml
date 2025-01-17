@@ -2,6 +2,7 @@
 
 - import_playbook: 2_install_monitoring/install_prometheus.yaml
 - import_playbook: 2_install_monitoring/node_exporter_playbook.yaml
-- import_playbook: update_prometheus.yaml
+#- import_playbook: update_prometheus.yaml
+- import_playbook: 2_install_monitoring/update_prometheus_new.yaml
 - import_playbook: 2_install_monitoring/prometheus_playbook.yaml
 - import_playbook: 2_install_monitoring/install_grafana.yaml

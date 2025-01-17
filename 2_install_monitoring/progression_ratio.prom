@@ -1,0 +1,3 @@
+# HELP progression_ratio Ratio of files being processed
+# TYPE progression_ratio gauge
+progression_ratio 0
