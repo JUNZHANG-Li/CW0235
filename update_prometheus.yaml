@@ -1,0 +1,38 @@
+---
+- name: Update last targets line in Prometheus config
+  hosts: hostnode
+  gather_facts: no
+  tasks:
+    - name: Generate inventory and fetch worker IPs
+      delegate_to: localhost
+      command: python3 generate_inventory.py --list
+      register: inventory_output
+
+    - name: Extract worker and storage IPs
+      set_fact:
+        worker_ips: "{{ inventory_output.stdout | from_json | dict2items | selectattr('key', 'equalto', 'workers') | map(attribute='value.hosts') | first }}"
+        storage_ip: "{{ inventory_output.stdout | from_json | dict2items | selectattr('key', 'equalto', 'storagenode') | map(attribute='value.hosts') | first | first }}"
+
+    - name: Ensure all worker IPs have :9100 appended correctly
+      set_fact:
+        worker_ips_with_port: "{{ worker_ips | map('regex_replace', '(:9100)?$', ':9100') | list }}"
+
+    - name: Ensure storage IP has :9100 appended correctly
+      set_fact:
+        storage_ip_with_port: "{{ storage_ip | regex_replace('(:9100)?$', ':9100') }}"
+
+    - name: Combine worker and storage IPs into a single target string with single quotes
+      set_fact:
+        target_string: "      - targets: ['{{ (worker_ips_with_port + [storage_ip_with_port]) | join(\"', '\") }}']"
+
+    - name: Replace the last matching line
+      become: yes
+      shell: |
+        sed -i "$(grep -n '      - targets:' /etc/prometheus/prometheus.yml | tail -n 1 | cut -d: -f1)s|.*|{{ target_string }}|" /etc/prometheus/prometheus.yml
+
+#    - name: Start Prometheus with specified config file
+#      shell: sudo prometheus --config.file=/etc/prometheus/prometheus.yml
+#      async: 30
+#      poll: 0
+#      register: prometheus_job
+

@@ -1,0 +1,14 @@
+---
+- name: Check and copy AlphaFold Human dataset to HDFS
+  hosts: storagenode
+  tasks:
+  - name: Check Human dataset existence in HDFS
+    command: hdfs dfs -ls /UP000005640_9606_HUMAN_v4
+    register: hdfs_check
+    failed_when: hdfs_check.rc != 0 and "No such file or directory" not in hdfs_check.stderr
+    changed_when: false
+
+  - name: Copy Human dataset to HDFS
+    command: hdfs dfs -copyFromLocal /data/almalinux/UP000005640_9606_HUMAN_v4/ /UP000005640_9606_HUMAN_v4
+    when: hdfs_check.rc != 0
+

@@ -1,0 +1,18 @@
+---
+
+- import_playbook: 1_setup_hadoop/customisations.yaml
+- import_playbook: 1_setup_hadoop/install_dependency.yaml
+- import_playbook: 1_setup_hadoop/hostnamestoragenode.yaml
+- import_playbook: 1_setup_hadoop/hostnamehostnode.yaml
+- import_playbook: 1_setup_hadoop/hostnameworkers.yaml
+- import_playbook: 1_setup_hadoop/commonkeys.yaml
+- import_playbook: 1_setup_hadoop/sharecommonkeys.yaml
+- import_playbook: 1_setup_hadoop/userfiles.yaml
+- import_playbook: 1_setup_hadoop/firewall_new.yaml
+- import_playbook: 1_setup_hadoop/install-hadoop.yaml
+- import_playbook: 1_setup_hadoop/hadoop-host.yaml
+- import_playbook: 1_setup_hadoop/hadoop-worker.yaml
+- import_playbook: 1_setup_hadoop/hadoop-final.yaml
+- import_playbook: 1_setup_hadoop/spark-install.yaml
+- import_playbook: 1_setup_hadoop/second-disk.yaml
+- import_playbook: 1_setup_hadoop/install_dependency.yaml

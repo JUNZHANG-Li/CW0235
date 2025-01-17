@@ -1,0 +1,8 @@
+---
+
+- import_playbook: 3_install_datasets/install_human.yaml
+- import_playbook: 3_install_datasets/copy_human_to_hdfs.yaml
+- import_playbook: 3_install_datasets/install_ecoli.yaml
+- import_playbook: 3_install_datasets/copy_ecoli_to_hdfs.yaml
+- import_playbook: 3_install_datasets/install_cath.yaml
+- import_playbook: 3_install_datasets/copy_cath_to_hdfs.yaml

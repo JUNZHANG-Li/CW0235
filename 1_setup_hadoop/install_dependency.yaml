@@ -1,0 +1,25 @@
+- name: Setup Merizo Search and Install Dependencies
+  hosts: workers:storagenode
+  become: yes
+  tasks:
+    - name: Clone the merizo_search repository
+      git:
+        repo: https://github.com/psipred/merizo_search.git
+        dest: /home/almalinux/merizo_search
+        update: yes
+
+    - name: Install Python dependencies
+      ansible.builtin.pip:
+        name:
+          - biopython
+          - torch
+          - numpy
+          - scipy
+          - faiss-cpu
+          - rotary-embedding-torch
+          - natsort
+          - matplotlib
+        state: latest
+        executable: /usr/bin/pip3
+        extra_args: --no-cache-dir --extra-index-url https://download.pytorch.org/whl/cpu
+

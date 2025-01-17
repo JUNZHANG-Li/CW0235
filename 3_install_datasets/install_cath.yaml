@@ -1,0 +1,26 @@
+---
+- name: Install and unpack Foldclass CATH dataset
+  hosts: storagenode
+  tasks:
+    - name: Download Foldclass CATH dataset
+      ansible.builtin.get_url:
+        dest: /data/almalinux/cath_foldclassdb.tar.gz
+        url: "http://bioinfadmin.cs.ucl.ac.uk/downloads/merizo_search/cath_foldclassdb.tar.gz"
+        tmp_dest: /data/almalinux
+
+    - name: Create unpack directory
+      ansible.builtin.file:
+        path: /data/almalinux/cath_foldclassdb/
+        state: directory
+
+    - name: Unpack Foldclass CATH dataset
+      ansible.builtin.unarchive:
+        dest: /data/almalinux/cath_foldclassdb/
+        remote_src: true
+        src: /data/almalinux/cath_foldclassdb.tar.gz
+
+    - name: Remove the source archive after unpacking
+      ansible.builtin.file:
+        path: /data/almalinux/cath_foldclassdb.tar.gz
+        state: absent
+

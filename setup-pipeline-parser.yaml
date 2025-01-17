@@ -1,0 +1,21 @@
+---
+- name: Deploy coursework files
+  hosts: workers:storagenode
+  become: yes
+  tasks:
+    - name: Copy coursework file to hostnode
+      ansible.builtin.copy:
+        src: /home/almalinux/CW0235/comp0235_coursework_2024.tar.gz
+        dest: /home/almalinux/comp0235_coursework_2024.tar.gz
+
+    - name: Unzip coursework file
+      ansible.builtin.unarchive:
+        src: /home/almalinux/comp0235_coursework_2024.tar.gz
+        dest: /home/almalinux/
+        remote_src: yes
+
+    - name: Remove the tar.gz file
+      ansible.builtin.file:
+        path: /home/almalinux/comp0235_coursework_2024.tar.gz
+        state: absent
+
